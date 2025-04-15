@@ -41,7 +41,7 @@ function Navbar() {
   };
 
   return (
-    <AppBar position="static" sx={{ mb: 5 }}>
+    <AppBar position="sticky" sx={{ mb: 5 }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
@@ -63,7 +63,6 @@ function Navbar() {
             LOGO
           </Typography>
 
-          {/* Mobile menu */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
@@ -99,7 +98,6 @@ function Navbar() {
             </Menu>
           </Box>
 
-          {/* Desktop menu */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
@@ -117,7 +115,6 @@ function Navbar() {
             ))}
           </Box>
 
-          {/* Cart icon */}
           <Link
             to="/cart"
             style={{
@@ -146,7 +143,6 @@ function Navbar() {
             )}
           </Link>
 
-          {/* User avatar */}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
