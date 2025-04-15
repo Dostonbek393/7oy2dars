@@ -1,13 +1,17 @@
 import { Container, Typography } from "@mui/material";
-import { axiosInstace } from "../utils";
+import { axiosInstance } from "../utils";
 import ProductContainer from "../components/ProductContainer";
+import { useLoaderData } from "react-router-dom";
 
 export const loader = async () => {
-  const req = await axiosInstace("/product");
+  const req = await axiosInstance("/product");
   return req.data;
 };
 
 export default function Home() {
+  const { products } = useLoaderData();
+  console.log(products);
+
   return (
     <section>
       <Container maxWidth="xl" sx={{ pb: 5 }}>

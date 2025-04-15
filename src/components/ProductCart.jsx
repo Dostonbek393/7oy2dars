@@ -8,7 +8,38 @@ import {
   Box,
 } from "@mui/material";
 
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addToCart,
+  incrementAmount,
+  decrementAmount,
+  deleteCart,
+} from "../app/feature/cartSlice";
+
 export default function ProductCart({ product }) {
+  const dispatch = useDispatch();
+  const { cart } = useSelector((store) => store.cart);
+  const isAdded = cart.find((i) => i.id == product.id);
+
+  const handleBuy = (e) => {
+    e.preventDefault();
+    dispatch(
+      addToCart({
+        ...product,
+        amount: 1,
+      })
+    );
+  };
+
+  const handleDecrement = (e) => {
+    e.preventDefault();
+    if (isAdded.amount === 1) {
+      dispatch(deleteCart(product.id));
+    } else {
+      dispatch(decrementAmount(product.id));
+    }
+  };
+
   const { title, price, description, rating, thumbnail } = product;
 
   const renderStars = () => {
@@ -81,6 +112,53 @@ export default function ProductCart({ product }) {
         <Button variant="outlined" size="small" sx={{ textTransform: "none" }}>
           View Details
         </Button>
+
+        {isAdded ? (
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 2,
+              mt: "auto",
+            }}
+          >
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={(e) => {
+                e.preventDefault();
+                dispatch(incrementAmount(product.id));
+              }}
+              sx={{ minWidth: 36, borderRadius: "50%", mt: 1 }}
+            >
+              +
+            </Button>
+            <Typography variant="body1" sx={{ mx: 1 }}>
+              {isAdded.amount}
+            </Typography>
+            <Button
+              variant="contained"
+              color="error"
+              size="small"
+              onClick={handleDecrement}
+              sx={{ minWidth: 36, borderRadius: "50%", mt: 1 }}
+            >
+              -
+            </Button>
+          </Box>
+        ) : (
+          <Button
+            fullWidth
+            variant="contained"
+            color="secondary"
+            onClick={handleBuy}
+            sx={{ mt: "auto", py: 1.5, mt: 1 }}
+          >
+            Buy
+          </Button>
+        )}
       </CardContent>
     </Card>
   );
